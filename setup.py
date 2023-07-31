@@ -5,7 +5,7 @@ from anote.version import __version__
 
 README = ""
 CLASSIFIERS = """
-Development Status :: 5 - Production/Stable
+Development Status :: 3 - Alpha
 License :: OSI Approved :: Apache Software License
 Operating System :: OS Independent
 Programming Language :: Python
@@ -16,12 +16,12 @@ Programming Language :: Python :: 3.11
 Topic :: Utilities
 Intended Audience :: Developers
 """.strip().splitlines()
-KEYWORDS = "automation releasenotes"
+KEYWORDS = "automation releasenotes changelog"
 DESCRIPTION = "Release notes generator"
 PROJECT_URLS = {
     # "Documentation": "https://robocop.readthedocs.io/en/stable",
-    # "Issue tracker": "https://github.com/MarketSquare/robotframework-robocop/issues",
-    # "Source code": "https://github.com/MarketSquare/robotframework-robocop",
+    "Issue tracker": "https://github.com/bhirsz/anote/issues",
+    "Source code": "https://github.com/bhirsz/anote",
 }
 
 
@@ -31,8 +31,8 @@ setup(
     description=DESCRIPTION,
     long_description=README,
     long_description_content_type="text/markdown",
-    # url="https://github.com/MarketSquare/robotframework-robocop",
-    # download_url="https://pypi.org/project/robotframework-robocop",
+    url="https://github.com/bhirsz/anote",
+    # download_url="https://pypi.org/project/anote",
     author="Bartlomiej Hirsz",
     author_email="bartek.hirsz@gmail.com",
     license="Apache License 2.0",
@@ -40,7 +40,7 @@ setup(
     classifiers=CLASSIFIERS,
     keywords=KEYWORDS,
     packages=["anote"],
-    # project_urls=PROJECT_URLS,
+    project_urls=PROJECT_URLS,
     python_requires=">=3.8",
     include_package_data=True,
     install_requires=[
