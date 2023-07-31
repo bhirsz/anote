@@ -1,4 +1,3 @@
-
 def generate_release(version, unreleased_path):
     print(f"Generating release notes for {version}")
 

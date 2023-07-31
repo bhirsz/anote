@@ -2,7 +2,6 @@ from setuptools import setup
 
 from anote.version import __version__
 
-
 README = ""
 CLASSIFIERS = """
 Development Status :: 3 - Alpha

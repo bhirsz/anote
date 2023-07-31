@@ -24,9 +24,7 @@ def cli():
     metavar="UNRELEASED DIR",
     help="Directory with unreleased notes",
 )
-@click.argument(
-    "new_version"
-)
+@click.argument("new_version")
 def generate(new_version: str, unreleased_dir: str):
     unreleased_path = resolve_unreleased_path(unreleased_dir)
     generate_release(new_version, unreleased_path)
