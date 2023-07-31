@@ -34,7 +34,10 @@ class ReleaseNote:
             sections[fragment.section].append(fragment)
         for section, fragments in sections.items():
             sections[section] = sorted(fragments, key=lambda x: x.order)
-        return {"version": self.version, **sections}
+        env = {"version": self.version}
+        for section, fragments in sections.items():
+            env[section] = [fragment.load_fragment() for fragment in fragments]
+        return env
 
     def generate(self):
         return self.template.render(**self.get_template_env())

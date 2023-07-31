@@ -20,13 +20,18 @@ or to install exactly this version
    :depth: 2
    :local:
 
-
+{% if rules|length > 0 %}
 Rule changes
 ============
 
+{% for note in rules %}{{ note }}{% endfor %}
+{% endif -%}
+
+{% if fixes|length > 0 %}
 Fixes
 =====
-
+{% for note in fixes %}{{ note }}{% endfor %}
+{% endif -%}
 
 Other features
 ==============
