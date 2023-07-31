@@ -16,10 +16,15 @@ def generate_release(version):
     # --clear-notes to remove *.rst
 
 
-@click.command(context_settings=CONTEXT_SETTINGS)
+@click.group(invoke_without_command=True, context_settings=CONTEXT_SETTINGS)
+@click.version_option(version=__version__, prog_name="anote")
+def cli():
+    pass
+
+
+@cli.command()
 @click.argument(
     "new_version"
 )
-@click.version_option(version=__version__, prog_name="anote")
-def cli(new_version):
+def generate(new_version):
     generate_release(new_version)
