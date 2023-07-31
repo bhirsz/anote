@@ -24,10 +24,13 @@ def cli():
     metavar="UNRELEASED DIR",
     help="Directory with unreleased notes",
 )
+@click.option(
+    "-t", "--template", metavar="TEMPLATE PATH", help="Path to release notes template"
+)
 @click.argument("new_version")
-def generate(new_version: str, unreleased_dir: str):
+def generate(new_version: str, unreleased_dir: str, template: Optional[str]):
     unreleased_path = resolve_unreleased_path(unreleased_dir)
-    generate_release(new_version, unreleased_path)
+    generate_release(new_version, unreleased_path, template)
 
 
 def resolve_unreleased_path(unreleased_dir: str) -> Path:
