@@ -1,19 +1,12 @@
+from pathlib import Path
+from typing import Optional
+
 import click
 
+from anote.generate import generate_release
 from anote.version import __version__
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
-
-
-def generate_release(version):
-    print(f"Generating release notes for {version}")
-    # load # unreleased dir (default, or passed dir)
-    # inside unreleased find release.template, or use --template path and load it
-    # get all *.rst files and load them
-    # pattern is <order_number>.<section>.rst
-    # ie 1.fixes.rst, 10.features.rst
-    # later in template we can refer to fixes, features as list of strings (simple as it is)
-    # --clear-notes to remove *.rst
 
 
 @click.group(invoke_without_command=True, context_settings=CONTEXT_SETTINGS)
@@ -23,8 +16,24 @@ def cli():
 
 
 @cli.command()
+@click.option(
+    "-u",
+    "--unreleased-dir",
+    default="unreleased",
+    show_default=True,
+    metavar="UNRELEASED DIR",
+    help="Directory with unreleased notes",
+)
 @click.argument(
     "new_version"
 )
-def generate(new_version):
-    generate_release(new_version)
+def generate(new_version: str, unreleased_dir: str):
+    unreleased_path = resolve_unreleased_path(unreleased_dir)
+    generate_release(new_version, unreleased_path)
+
+
+def resolve_unreleased_path(unreleased_dir: str) -> Path:
+    unreleased_path = Path(unreleased_dir)
+    if not unreleased_path.is_dir():
+        raise ValueError("TODO")  # TODO
+    return unreleased_path
