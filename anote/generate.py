@@ -11,7 +11,7 @@ from jinja2 import Template
 class ReleaseFragment:
     def __init__(self, path, order, section, extension):
         self.path = path
-        self.order = int(order)
+        self.order = int(order) if order is not None else order
         self.section = section
         self.extension = extension
 
@@ -36,7 +36,10 @@ class ReleaseNote:
             sections[section] = sorted(fragments, key=lambda x: x.order)
         env = {"version": self.version}
         for section, fragments in sections.items():
-            env[section] = [fragment.load_fragment() for fragment in fragments]
+            if len(fragments) == 1 and fragments[0].order is None:
+                env[section] = fragments[0].load_fragment()
+            else:
+                env[section] = [fragment.load_fragment() for fragment in fragments]
         return env
 
     def generate(self):
@@ -64,7 +67,7 @@ def get_release_fragments(unreleased_path: Path) -> List[ReleaseFragment]:
     Pattern is: order.section_name.extension
     For example: 2.fixes.rst
     """
-    fragment_pattern = re.compile("([0-9]+)\.([^.]+)\.([^.]+)")
+    fragment_pattern = re.compile("(?P<section>[^.]+)\.?(?P<order>[0-9]+)?\.(?P<extension>[^.]+)")
     fragments = []
     for file in unreleased_path.iterdir():
         if file.is_dir():
@@ -72,8 +75,7 @@ def get_release_fragments(unreleased_path: Path) -> List[ReleaseFragment]:
         fragment_match = fragment_pattern.match(file.name)
         if fragment_match is None:
             continue
-        order, section, extension = fragment_match.groups()
-        fragments.append(ReleaseFragment(file, order, section, extension))
+        fragments.append(ReleaseFragment(file, fragment_match.group("order"), fragment_match.group("section"), fragment_match.group("extension")))
     return fragments
 
 
